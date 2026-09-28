@@ -98,7 +98,7 @@ public final class OptimizedModel extends DummyClass {
 			return 0;
 		}
 
-		public void addConnectionTransformation(
+		public OptimizedModel createConnectionModel(
 				OptimizedModel.ShaderType shaderType,
 				double x,
 				double y,
