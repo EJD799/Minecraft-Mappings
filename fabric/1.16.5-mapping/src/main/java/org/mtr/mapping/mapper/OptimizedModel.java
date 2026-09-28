@@ -97,6 +97,16 @@ public final class OptimizedModel extends DummyClass {
 		public float getMaxZ() {
 			return 0;
 		}
+
+		public void addConnectionTransformation(
+				OptimizedModel.ShaderType shaderType,
+				double x,
+				double y,
+				double z,
+				boolean flipped,
+				double deformation
+		) {
+		}
 	}
 
 	public enum ShaderType {

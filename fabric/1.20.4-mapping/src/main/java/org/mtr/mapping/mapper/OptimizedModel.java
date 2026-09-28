@@ -246,6 +246,46 @@ public final class OptimizedModel extends DummyClass {
 				}
 			});
 		}
+
+		public void addConnectionTransformation(
+				OptimizedModel.ShaderType shaderType,
+				double x,
+				double y,
+				double z,
+				boolean flipped,
+				double deformation
+		) {
+			final double centerX = (minX + maxX) / 2;
+			final double centerZ = (minZ + maxZ) / 2;
+			final double halfWidth = (maxX - minX) / 2;
+
+			rawMeshes.forEach(rawMesh -> {
+				final RawMesh newRawMesh = new RawMesh(shaderType, rawMesh);
+
+				if (halfWidth != 0) {
+					newRawMesh.vertices.forEach(vertex -> {
+						final double normalizedX =
+								(vertex.position.x - centerX) / halfWidth;
+
+						final double scale =
+								1 + deformation * normalizedX;
+
+						vertex.position.z = (float) (
+								centerZ +
+								(vertex.position.z - centerZ) * scale
+						);
+					});
+				}
+
+				newRawMesh.applyTranslation((float) x, (float) y, (float) z);
+
+				if (flipped) {
+					newRawMesh.applyRotation(new Vector3f(0, 1, 0), 180);
+				}
+
+				rawModel.append(newRawMesh);
+			});
+		}
 	}
 
 	public enum ShaderType {
